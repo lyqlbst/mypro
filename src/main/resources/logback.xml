@@ -12,7 +12,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>test/test-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>log/test-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever fileUtilfile size reaches 64 MB -->

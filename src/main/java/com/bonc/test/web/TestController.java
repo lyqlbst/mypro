@@ -40,8 +40,8 @@ public class TestController {
     }
 
     @ApiOperation(value = "测试", notes = "测试接收字节流")
-    @RequestMapping(value = "{bytes}", method = RequestMethod.PUT)
-    public ResultBean test(@PathVariable("bytes") byte[] bytes) {
+    @RequestMapping(value = "testBytes", method = RequestMethod.POST)
+    public ResultBean test(@RequestBody String bytes) {
         System.out.println(bytes);
         return new ResultBean<>(bytes.toString());
     }
