@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bonc.test.mapper.MyTestMapper" >
+
+    <select id="selectTextByName" resultType="TextBean">
+        SELECT test_id,test_text,test_time,test_user
+        FROM test_cache WHERE test_user = #{name}
+    </select>
+
+    <select id="selectTextById" resultType="TextBean">
+        SELECT test_id AS testId,test_text AS testText,test_time AS testTime,test_user AS testUser
+        FROM test_cache WHERE test_id = #{id}
+    </select>
+
+    <insert id="insertText">
+        INSERT INTO test_cache (test_id,test_text,test_time,test_user)
+        VALUES(#{textBean.testId},#{textBean.testText},NOW(),#{textBean.testUser})
+    </insert>
+
+</mapper>

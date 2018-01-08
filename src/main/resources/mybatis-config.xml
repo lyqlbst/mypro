@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>
+
+  	<!-- 是否可以使用列的别名（） （取决于驱动的兼容性） default：true-->
+  	<setting name = "useColumnLabel" value = "true"/>
+
+  	<!-- 是否启用数据中A_column 自动映射到java类中驼峰命名的属性 default：false -->
+  	<setting name = "mapUnderscoreToCamelCase" value = "true"/>
+  	
+  	<!-- 设置但JDBC类型为空时，某些驱动程序要指定值 default：OTHER -->
+  	<setting name = "jdbcTypeForNull" value = "NULL"/>
+  	
+  	<!-- 在null时也调用setter，适应于返回map，3.2以上版本可用 -->
+  	<setting name = "callSettersOnNulls" value = "true"/>
+
+    <!-- 是否使用懒加载 关联对象，同hiberbate中的延迟加载一样 default：true -->
+    <setting name="lazyLoadingEnabled" value="true" />
+
+    <!-- 当对象使用延迟加载时，属性的加载取决于被引用到的那些延迟属性，否则，按需加载（需要时才加载） -->
+    <setting name="aggressiveLazyLoading" value="true" />
+<!--   	
+  	设置触发延迟加载的方法
+  	<setting name = "lazyLoadTriggerMethods" value = "equals,clone,hashCode,toString"/> -->
+
+  </settings>
+</configuration>
