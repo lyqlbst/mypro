@@ -1,8 +1,9 @@
 package com.bonc.test.web;
 
 
-import com.bonc.test.domain.CheckException;
-import com.bonc.test.domain.ResultBean;
+import com.bonc.test.domain.base.CheckException;
+import com.bonc.test.domain.base.PageResultBean;
+import com.bonc.test.domain.base.ResultBean;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,28 +28,37 @@ public class ControllerAOP {
     @Around("pointcut()")
     public Object handlerControllerMethod(ProceedingJoinPoint point) {
         long startTime = System.currentTimeMillis();
-        ResultBean<?> resultBean;
+        Object result;
         try {
-            resultBean = (ResultBean<?>) point.proceed();
+            result = point.proceed();
             logger.info(point.getSignature() + "use time" + (System.currentTimeMillis() - startTime));
         } catch (Throwable e) {
-            resultBean = handlerException(point, e);
+            result = handlerException(point, e);
         }
-        return resultBean;
+        return result;
     }
 
-    private ResultBean<?> handlerException(ProceedingJoinPoint point, Throwable e) {
-        ResultBean<?> result = new ResultBean();
+    private Object handlerException(ProceedingJoinPoint point, Throwable e) {
+        Object result = point;
         // 已知异常
         if (e instanceof CheckException) {
-            result.setMsg(e.getLocalizedMessage());
-            result.setCode(ResultBean.FAIL);
+            if (point instanceof ResultBean) {
+                ((ResultBean) point).setMsg(e.getLocalizedMessage());
+                ((ResultBean) point).setCode(ResultBean.FAIL);
+            } else if (point instanceof PageResultBean) {
+                ((PageResultBean) point).setMsg(e.getLocalizedMessage());
+                ((PageResultBean) point).setCode(ResultBean.FAIL);
+            }
         } else {
+            if (point instanceof ResultBean) {
+                ((ResultBean) point).setMsg(e.toString());
+                ((ResultBean) point).setCode(ResultBean.UNKNOWN_ERROR);
+            } else if (point instanceof PageResultBean) {
+                ((PageResultBean) point).setMsg(e.toString());
+            ((PageResultBean) point).setCode(ResultBean.UNKNOWN_ERROR);
+        }
             logger.error(point.getSignature() + " error ", e);
-            result.setMsg(e.toString());
-            result.setCode(ResultBean.UNKNOWN_ERROR);
             // 未知异常是应该重点关注的，这里可以做其他操作，如通知邮件，单独写到某个文件等等。
-
         }
         return result;
     }

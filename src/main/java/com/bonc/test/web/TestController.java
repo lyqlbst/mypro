@@ -1,49 +1,69 @@
 package com.bonc.test.web;
 
-import com.bonc.test.domain.ResultBean;
+import com.bonc.test.domain.base.CheckException;
+import com.bonc.test.domain.base.PageResultBean;
+import com.bonc.test.domain.base.ResultBean;
 import com.bonc.test.domain.TextBean;
 import com.bonc.test.service.IMyTestService;
-import io.swagger.annotations.ApiImplicitParam;
+import com.bonc.test.util.UUIDUtil;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by LinYuQiang on 2018/1/2 0002.
  */
 @RestController
-@RequestMapping("Test")
+@RequestMapping("test")
 public class TestController {
 
     @Autowired
     IMyTestService service;
 
-    @ApiOperation(value = "根据名字获取text", notes = "根据名字获取text")
-    @RequestMapping(value = "text/{name}", method = RequestMethod.GET)
-    public ResultBean name(@PathVariable("name") String name) {
-        return new ResultBean<>(service.getAllText(name));
+    @ApiOperation(value = "获取text", notes = "获取text（分页）")
+    @RequestMapping(value = "userInfo", method = RequestMethod.GET)
+    public ResultBean getUserInfo() {
+        return new ResultBean<>(service.getUserInfo());
     }
 
-    @RequestMapping(value = "{name}/{text}/update", method = RequestMethod.PUT)
-    public ResultBean putText(@PathVariable("name") String name, @PathVariable("text") String text) {
-        return new ResultBean<>(service.putText(new TextBean(UUID.randomUUID().toString(), text, name)));
+    @ApiOperation(value = "获取text", notes = "获取text（分页）")
+    @RequestMapping(value = "texts", method = RequestMethod.GET)
+    public PageResultBean getAllText(Integer pageNum, Integer pageSize) {
+        return new PageResultBean<>(new PageInfo<>(service.getAllText(pageNum, pageSize)));
     }
 
-    @ApiOperation(value = "测试", notes = "测试接收字节流")
-    @RequestMapping(value = "testBytes", method = RequestMethod.POST)
-    public ResultBean test(@RequestBody String bytes) {
-        System.out.println(bytes);
-        return new ResultBean<>(bytes.toString());
+    @ApiOperation(value = "根据userId获取text", notes = "根据userId获取text（分页）")
+    @RequestMapping(value = "texts/{userId}", method = RequestMethod.GET)
+    public PageResultBean getTextByUserId(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize) {
+        return new PageResultBean<>(new PageInfo<>(service.getTextByUserId(userId, pageNum, pageSize)));
     }
 
+    @RequestMapping(value = "texts", method = RequestMethod.POST)
+    @ApiOperation(value = "新增text", notes = "新增text")
+    public ResultBean putText(@RequestBody TextBean textBean) {
+        textBean.setTestId(UUIDUtil.getRandomUUID());
+        return new ResultBean<>(service.putText(textBean));
+    }
+
+    @RequestMapping(value = "texts/{testId}", method = RequestMethod.PATCH)
+    @ApiOperation(value = "根据testId编辑text", notes = "根据testId修改text")//testId:2630f6a70d8d4aa4a5fe4f85ad733378
+    public ResultBean editTextByTestId(@PathVariable("testId") String testId, @RequestBody TextBean textBean) {
+        return new ResultBean<>(service.editTextByTestId(testId, textBean.getTestText()));
+    }
+
+    @RequestMapping(value = "texts/{testId}", method = RequestMethod.PUT)
+    @ApiOperation(value = "根据testId编辑test所有信息", notes = "根据testId编辑test所有信息")//testId:2630f6a70d8d4aa4a5fe4f85ad733378
+    public ResultBean editTestInfoByTestId(@PathVariable("testId") String testId, @RequestBody TextBean textBean) {
+        textBean.setTestId(testId);
+        return new ResultBean<>(service.editTestInfoByTestId(textBean));
+    }
+
+    @RequestMapping(value = "texts/{testId}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "根据testId删除test信息", notes = "根据testId删除test信息")//testId:2630f6a70d8d4aa4a5fe4f85ad733378
+    public ResultBean deleteTestInfoByTestId(@PathVariable("testId") String testId) {
+        return new ResultBean<>(service.deleteTestInfoByTestId(testId));
+    }
 }

@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bonc.test.mapper.MyTestMapper" >
+<mapper namespace="com.bonc.test.mapper.MyTestMapper">
 
-    <select id="selectTextByName" resultType="TextBean">
-        SELECT test_id,test_text,test_time,test_user
-        FROM test_cache WHERE test_user = #{name}
+    <select id="selectTestInfoByTestId" resultType="TextBean">
+        SELECT test_id,test_text,test_time,test_user,user_name FROM test_cache INNER JOIN test_user ON test_user = user_id
+        WHERE test_id = #{testId}
     </select>
 
-    <select id="selectTextById" resultType="TextBean">
-        SELECT test_id AS testId,test_text AS testText,test_time AS testTime,test_user AS testUser
-        FROM test_cache WHERE test_id = #{id}
+    <select id="selectUserInfo" resultType="UserInfo">
+        SELECT user_id,user_name,user_password,user_sex,user_sex,user_address FROM test_user
     </select>
 
-    <insert id="insertText">
-        INSERT INTO test_cache (test_id,test_text,test_time,test_user)
-        VALUES(#{textBean.testId},#{textBean.testText},NOW(),#{textBean.testUser})
+    <select id="selectText" resultType="TextBean">
+        SELECT test_id,test_text,test_time,test_user,user_name FROM test_cache INNER JOIN test_user ON test_user = user_id
+    </select>
+
+    <select id="selectTextByUserId" resultType="TextBean">
+        SELECT test_id,test_text,test_time,test_user,user_name FROM test_cache
+        INNER JOIN test_user ON test_user = user_id WHERE test_user = #{userId}
+    </select>
+
+    <insert id="insertText" useGeneratedKeys="true" keyProperty="test_id">
+        INSERT INTO test_cache (test_id,test_text,test_time,test_user) VALUES (#{textBean.testId},#{textBean.testText},NOW(),#{textBean.testUser})
     </insert>
 
+    <update id="updateTextByTestId">
+        UPDATE test_cache SET test_text = #{text} WHERE test_id = #{testId}
+    </update>
+
+    <update id="updateTestInfoByTestId">
+        UPDATE test_cache SET test_text = #{textBean.testText},test_user = #{textBean.testUser},test_time = NOW()
+        WHERE test_id = #{textBean.testId}
+    </update>
+
+    <delete id="deleteTestInfoByTestId">
+        DELETE FROM test_cache WHERE test_id = #{testId}
+    </delete>
 </mapper>

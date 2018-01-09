@@ -1,4 +1,4 @@
-package com.bonc.test.domain;
+package com.bonc.test.domain.base;
 
 import lombok.Data;
 

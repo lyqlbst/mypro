@@ -14,6 +14,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,8 @@ public class RedisConfig extends CachingConfigurerSupport{
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         Map<String, Long> expires = new HashMap<>();
-        expires.put(CacheNames.TEST, 60L);
+        expires.put(CacheNames.TEXT, 60L);
+        expires.put(CacheNames.USER_INO, 60L);
         // 设置超时
         cacheManager.setExpires(expires);
         // 没有设置的缓存默认过期时间

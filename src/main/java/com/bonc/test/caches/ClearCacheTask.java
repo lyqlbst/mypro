@@ -19,8 +19,8 @@ public class ClearCacheTask {
      * 定时清空缓存
      */
     @Scheduled(fixedRate = 15 * 60 * 1000L)
-    @CacheEvict(value = {CacheNames.TEST}, allEntries = true)
+    @CacheEvict(value = {CacheNames.TEXT, CacheNames.USER_INO}, allEntries = true)
     public void clearCaches() {
-        logger.debug("\n------------ clear " + CacheNames.TEST + " caches ------------\n");
+        logger.debug("\n------------ clear " + CacheNames.TEXT + "," + CacheNames.USER_INO + " caches ------------\n");
     }
 }
