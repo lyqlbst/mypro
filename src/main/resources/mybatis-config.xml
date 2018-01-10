@@ -8,10 +8,10 @@
 
   	<!-- 是否启用数据中A_column 自动映射到java类中驼峰命名的属性 default：false -->
   	<setting name = "mapUnderscoreToCamelCase" value = "true"/>
-  	
+
   	<!-- 设置但JDBC类型为空时，某些驱动程序要指定值 default：OTHER -->
   	<setting name = "jdbcTypeForNull" value = "NULL"/>
-  	
+
   	<!-- 在null时也调用setter，适应于返回map，3.2以上版本可用 -->
   	<setting name = "callSettersOnNulls" value = "true"/>
 
@@ -22,7 +22,7 @@
     <setting name="aggressiveLazyLoading" value="true" />
 <!--   	
   	设置触发延迟加载的方法
-  	<setting name = "lazyLoadTriggerMethods" value = "equals,clone,hashCode,toString"/> -->
+  	<setting name = "lazyLoadTriggerMethomsgalue = "equals,clone,hashCode,toString"/> -->
 
   </settings>
 </configuration>

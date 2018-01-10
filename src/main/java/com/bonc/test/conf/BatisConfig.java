@@ -90,7 +90,7 @@ public class BatisConfig implements TransactionManagementConfigurer {
     //添加xml配置
     private Resource[] getDefaultMapperResources() {
     	ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    	Resource[] resources = null;
+    	Resource[] resources;
     	try {
 	    	Resource[] r1 = resolver.getResources("classpath:mapper/*.xml");
 	    	Resource[] r2 = resolver.getResources("classpath:mapper/*/*.xml");

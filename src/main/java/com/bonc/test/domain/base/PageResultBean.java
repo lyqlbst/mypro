@@ -1,7 +1,10 @@
 package com.bonc.test.domain.base;
 
 import com.github.pagehelper.PageInfo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,6 +13,9 @@ import java.util.List;
  * Created by LinYuQiang on 2018/1/9 0009.
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PageResultBean<T>implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,19 +26,9 @@ public class PageResultBean<T>implements Serializable {
     private long total;//总记录数
     private int pages;//总页数
 
-    public static final int SUCCESS = 200;
-    public static final int FAIL = 402;
-    public static final int NO_LOGIN = 401;
-    public static final int NO_PERMISSION = 403;
-    public static final int UNKNOWN_ERROR = 500;
-
-    private String msg = "success";
-    private int code = SUCCESS;
+    private String msg = ErrorCode.SUCCESS.getMsg();
+    private int code = ErrorCode.SUCCESS.getCode();
     private List<T> data;
-
-    public PageResultBean() {
-        super();
-    }
 
     public PageResultBean(PageInfo<T> data) {
         this.pageNum = data.getPageNum();
@@ -41,11 +37,5 @@ public class PageResultBean<T>implements Serializable {
         this.total = data.getTotal();
         this.pages = data.getPages();
         this.data = data.getList();
-    }
-
-    public PageResultBean(Throwable e) {
-        super();
-        this.msg = e.toString();
-        this.code = FAIL;
     }
 }

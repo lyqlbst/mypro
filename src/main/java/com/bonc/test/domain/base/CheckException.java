@@ -1,21 +1,23 @@
 package com.bonc.test.domain.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Delegate;
 
 /**
  * Created by LinYuQiang on 2018/1/2 0002.
  */
 @Data
-public class CheckException extends RuntimeException{
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CheckException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
-
-    public CheckException() {
-    }
-
-    public CheckException(String message) {
-        super(message);
-    }
+    private String msg;
+    private int code;
 
     public CheckException(String message, Throwable cause) {
         super(message, cause);
