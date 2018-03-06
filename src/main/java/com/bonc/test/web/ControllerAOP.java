@@ -51,11 +51,11 @@ public class ControllerAOP {
 
         // 已知异常
         if (e instanceof CheckException) {
-            return result.builder().code(((CheckException) e).getCode()).msg(((CheckException) e).getMsg()).build();
+            return result.setCode(((CheckException) e).getCode()).setMsg(((CheckException) e).getMsg());
         } else {
             logger.error(point.getSignature() + " error ", e);
 
-            result.builder().code(ErrorCode.SERVER_ERROR.getCode()).msg(ErrorCode.SERVER_ERROR.getMsg()).build();
+            result.setCode(ErrorCode.SERVER_ERROR.getCode()).setMsg(ErrorCode.SERVER_ERROR.getMsg());
             // 未知异常是应该重点关注的，这里可以做其他操作，如通知邮件，单独写到某个文件等等。
         }
         return result;

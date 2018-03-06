@@ -22,7 +22,7 @@
 
 
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+            <level>ERROR</level>
         </filter>
         <!-- Safely log to the sfileUtilfile from multiple JVMs. Degrades performance! -->
         <prudent>true</prudent>

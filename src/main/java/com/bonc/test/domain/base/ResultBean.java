@@ -1,6 +1,7 @@
 package com.bonc.test.domain.base;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class ResultBean<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
